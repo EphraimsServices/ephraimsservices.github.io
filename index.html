@@ -113,8 +113,16 @@
 </style>
 </head>
 <body>
-<!-- Tabs -->
-  <div class="form-wrapper">
+  
+  <div id="loginForm">
+  <h3>Login</h3>
+  <input type="password" id="password" placeholder="Enter password" required />
+  <button id=loginButton>Login</button>
+</div>
+
+<div id="app" style="display:none;">
+  
+   <div class="form-wrapper">
 <div class="tabs">
     <button onclick="showForm('bookingForm')">Book an Appointment</button>
     <button onclick="showForm('Notes')">Invoicing / Payments</button>
@@ -262,6 +270,12 @@
   <div class="spinner"></div>
 </div>
   
+  
+</div>
+  
+  
+<!-- Tabs -->
+ 
 
      <!--
      loading sign 
@@ -328,7 +342,28 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>-->
-    
+    <script>
+document.getElementById("loginButton").addEventListener("click", () => {
+  const password = document.getElementById("password").value;
+
+  sessionStorage.setItem("auth", password);
+
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("app").style.display = "block";
+});
+      document.getElementById("password").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const password = document.getElementById("password").value;
+
+  sessionStorage.setItem("auth", password);
+
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  }
+});
+      
+  
+  </script>
     <script>
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -361,6 +396,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (clickedButton) {
           formData.append(clickedButton.name, clickedButton.value);
         }
+        
+        formData.append("password",sessionStorage.getItem("auth"));
 
         const response = await fetch(SCRIPT_URL, {
           method: form.method || 'POST',
@@ -556,7 +593,7 @@ if (amt < 0){
     
 <script>
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfl9FDx407ktSTs255XGkfu__kdyhF-YZmmQOAVMvWQDmEi-qYWRBytw6uG1Qs-qxJRw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHfEhyPcCyfaAFvNn_sJ8FknzGXqhDd_lF0v13CpRIbh1vxQuzizbug59ZMHHas_n3/exec";
 
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
