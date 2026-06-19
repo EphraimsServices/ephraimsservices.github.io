@@ -136,6 +136,31 @@
     
     <label for="phone">Phone*</label>
   <input type="tel" name="phone" placeholder="123-456-7890" required>
+  
+         <label for="contactMethod">Contact Method</label>
+    <select name="contactMethod"  >
+        <option value=""></option>
+    <option value="WhatsApp Message">WhatsApp Message</option>
+    <option value="WhatsApp Call"> WhatsApp Call</option>
+    <option value="Call">Call</option>
+    <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
+  
+   <label for="phone">Alt Phone</label>
+  <input type="tel" name="altPhone" placeholder="123-456-7890" >
+  
+       <label for="altContactMethod">Alt Contact Method</label>
+    <select name="altContactMethod" >
+        <option value=""></option>
+  <option value="WhatsApp Message">WhatsApp Message</option>
+    <option value="WhatsApp Call"> WhatsApp Call</option>
+    <option value="Call">Call</option>
+    <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
 
     <label for="address">Address*</label>
   <input type="text" name="address" placeholder="123 Make Belive Dr, Brooklyn NY 11210" required>
@@ -146,7 +171,7 @@
     <option value="Woodridge">Woodridge</option>
     <option value="South Fallsburg">South Fallsburg</option>
     <option value="Fallsburg">Fallsburg</option>
-    <option value="Loch sheldrake">Loch sheldrake</option>
+    <option value="Loch Sheldrake">Loch Sheldrake</option>
     <option value="Monticello">Monticello</option>
     <option value="Woodbourne">Woodbourne</option>
     <option value="Ellenville">Ellenville</option>
@@ -190,34 +215,39 @@
   <input name="phone" id="cancelPhone" >
 
   <label>Select Job</label>
-  <select name="appointmentId" id="appointmentSelect" required>
+  <select name="jobID" id="appointmentSelect" required>
     <option value="">Enter info first</option>
   </select>
     <h2>Add Job Activity</h2>    
-          <label for="extraNotes">Job Activity</label>
-  <textarea name="extraNotes" placeholder="notes..."></textarea>
+          <label for="chargeNotes">Job Activity</label>
+  <textarea name="chargeNotes" placeholder="notes..."></textarea>
         
-         <label for="price">Price</label>
-  <input type="number" name="price" id="price" >
+         <label for="charge">Price</label>
+  <input type="number" name="charge" id="price" >
         
      <h2>Add Job Payment</h2>   
 
-        <label for="paymentNote">Payment Method</label>
-  <select name="paymentNote" id="paymentNote" >
+        <label for="paymentType">Payment Method</label>
+  <select name="paymentType" id="paymentNote" >
     <option value=""></option>
     <option value="Payment - Cash">Cash</option>
     <option value="Payment - Credit Card">Credit Card</option>
-    <option value="Payment - Deposit">Deposit</option>
     <option value="Payment - Zelle">Zelle</option>
     <option value="Payment - Check">Check</option>
   </select>
         
-    <label for="paymentAmount">Amount Paid</label>
-  <input type="number" name="paymentAmount" id="paymentAmount" >
+    <label for="posPaid">Amount Paid</label>
+  <input type="number" name="posPaid" id="paymentAmount" >
       
+              <label for="tax">Tax Amount</label>
+    <select name="tax" id="tax" >
+        <option value="0"></option>
+        <option value="8">8%</option>
+        <option value="8.875">8.875%</option>
+    </select>
 
   
-<button type="submit" name="action" value="notes">Record Activity & Payment</button>
+<button type="submit" name="action" value="addActivity">Record Activity & Payment</button>
 <button type="submit" name="action" value="closeJob">Record  & Close Job</button>
 
         <h2>Record and Invoice</h2>   
@@ -225,17 +255,11 @@
           <label for="email">Email</label>
   <input name="email" type="email" placeholder="email@example.com" >
         
-        <label for="tax">Tax Amount</label>
-    <select name="tax" id="tax" >
-        <option value=""></option>
-        <option value="8">8%</option>
-        <option value="8.875">8.875%</option>
-        <option value="0">😜</option>
-    </select>
+
         
          <label for="cc">Credit Card Fee?</label>
   <select name="cc" id="cc" >
-    <option value=""></option>
+    <option value="0"></option>
     <option value="4">Yes</option>
     <option value="0">No</option>
   </select>
@@ -248,8 +272,7 @@
 
   <h2>Search Past Work</h2>
 
-  <label>Last Name</label>
-  <input id="pastLastName">
+
 
   <label>Phone</label>
   <input id="pastPhone">
@@ -274,75 +297,9 @@
 </div>
   
   
-<!-- Tabs -->
- 
-
-     <!--
-     loading sign 
-  <script>
-  window.addEventListener('DOMContentLoaded', () => {
-  const forms = document.querySelectorAll('form');
-  const loader = document.getElementById('loading-overlay');
-
-  forms.forEach((form) => {
-    form.addEventListener('submit', () => {
-      // Force the display to flex
-      loader.style.display = 'flex';
-      console.log("Form submitted, loader should show.");
-    });
-  });
-
-  // Fix for the 'Back' button
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-      loader.style.display = 'none';
-    }
-  });
-});
-    
-    
-      </script>
-      -->
-  
-<!--  <script>
-window.addEventListener('DOMContentLoaded', () => {
-  const forms = document.querySelectorAll('form');
-  const loader = document.getElementById('loading-overlay');
-
-  forms.forEach((form) => {
-    form.addEventListener('submit', async (e) => {
-
-      e.preventDefault(); // STOP normal form submit
-
-      loader.style.display = 'flex';
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: form.method || 'POST',
-          body: new FormData(form)
-        });
-
-        const result = await response.text();
-
-        alert(result); // Show Apps Script response
-
-      } catch (err) {
-        console.error(err);
-        alert('Submission failed.');
-      } finally {
-        loader.style.display = 'none';
-      }
-    });
-  });
-
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-      loader.style.display = 'none';
-    }
-  });
-});
-</script>-->
+<!-- LOGON SCREEN -->
     <script>
+     
 document.getElementById("loginButton").addEventListener("click", () => {
   const password = document.getElementById("password").value;
 
@@ -364,6 +321,8 @@ document.getElementById("loginButton").addEventListener("click", () => {
       
   
   </script>
+  
+  <!-- Custom fetch submit -->
     <script>
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -398,7 +357,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         
         formData.append("password",sessionStorage.getItem("auth"));
-
+//here
+        if (formData.has("posPaid")){
+          formData.append("paid",-formData.get("posPaid"));
+        }
+        
         const response = await fetch(SCRIPT_URL, {
           method: form.method || 'POST',
           body: formData
@@ -422,7 +385,16 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
+  
+  //block enter to submit
+  forms.forEach((form) => {
+    form.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
+});
+    
+  });
   window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
       loader.style.display = 'none';
@@ -433,33 +405,25 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
     
     
-        <!-- Search work -->
+        <!-- Search past work -->
     <script>
 document.getElementById("pastPhone")
   .addEventListener("change", loadPastJobs);
 
-document.getElementById("pastLastName")
-  .addEventListener("change", loadPastJobs);
 
 document.getElementById("pastPhone")
   .addEventListener("keydown", e => {
     if (e.key === "Enter") loadPastJobs();
   });
 
-document.getElementById("pastLastName")
-  .addEventListener("keydown", e => {
-    if (e.key === "Enter") loadPastJobs();
-  });
+
         
         function loadPastJobs() {
-
-  const lastName =
-    document.getElementById("pastLastName").value;
 
   const phone =
     document.getElementById("pastPhone").value;
 
-  if (!lastName && !phone) return;
+  if (!phone) return;
 
   const select =
     document.getElementById("pastJobSelect");
@@ -470,7 +434,7 @@ document.getElementById("pastLastName")
   select.disabled = true;
 
   const url =
-    `${SCRIPT_URL}?action=getJobs&lastName=${encodeURIComponent(lastName)}&phone=${encodeURIComponent(phone)}&password=${sessionStorage.getItem("auth")}`;
+    `${SCRIPT_URL}?action=getJobs&phone=${encodeURIComponent(phone)}&password=${sessionStorage.getItem("auth")}`;
 
   fetch(url)
     .then(res => res.json())
@@ -524,6 +488,12 @@ document.getElementById("pastLastName")
         
        document.getElementById("pastJobSelect")
   .addEventListener("change", loadJobDetails);
+      
+let totalBilled = 0;
+let totalOwed = 0;
+let totalPaid = 0;
+let totalTax = 0;
+      let ccFees = 0;
         
 function loadJobDetails() {
 
@@ -539,9 +509,11 @@ function loadJobDetails() {
       
       const activity = job.activity || [];
 
-let totalBilled = 0;
-let totalOwed = 0;
-let totalPaid = 0;
+  totalBilled = 0;
+  totalOwed = 0;
+  totalPaid = 0;
+  totalTax = 0;
+  ccFees = 0;
 
 activity.forEach(a => {
 
@@ -556,47 +528,279 @@ if (amt < 0){
 
   totalOwed += amt;
 });
-    
-    
+
+  //  let taxAmount = (job.job.tax + 1) * totalBilled;
+    //let ccFee = (totalBilled + totalPaid) * (1 + job.job.cc);
 
     document.getElementById("jobDetails").innerHTML = `
-      <h3>Job #${job.job.jobID}</h3>
+    <hr>
+    <h3>Invoice Info</h3>
 
+   <label >Tax Amount</label>
+    <select name="tax"  id="taxSPW" onchange="setTax(this.value)">
+        <option value="0"> </option>
+        <option value="8">8%</option>
+        <option value="8.875">8.875%</option>
+        
+    </select>
+        
+         <label >Credit Card Fee?</label>
+  <select name="cc"  id="ccSPW" onchange="setCC(this.value)">
+    <option value="0"></option>
+    <option value="4">Yes</option>
+    <option value="0">No</option>
+  </select>
+  
+  <label for="email">Email</label>
+  <input type="text" name="email" id="emailSPW" >
+    <label for="name">Name</label>
+  <input type="text" name="name" id="nameSPW" >
+  
+
+  <button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
+  <button  type="button" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
+      
+      <h3>Job #${job.job.jobID}</h3>
+      
       <p><b>Customer:</b> ${job.job.lastName}</p>
 
       <p><b>Machine:</b> ${job.job.machine}</p>
 
       <p><b>Status:</b> ${job.job.status}</p>
+      
+      <hr>
+      
+      <h3>Payments</h3>
 
-      <p><b>Total Billed:</b> $${totalBilled}</p>
+      <p id="ttlBilled"><b>Subtotal:</b> $${totalBilled.toFixed(2)}</p>
       
-      <p><b>Total Paid:</b> $${totalPaid}</p>
+      <p id="owedTaxes"> <b>Tax:</b> $${totalTax.toFixed(2)}</p>
       
-      <p><b>Total Owed:</b> $${totalOwed}</p>
+      <p id="creditCardFees"> <b>Credit Card Fees:</b> $${ccFees.toFixed(2)}</p>
+      
+      <p id="amountPaid"><b>Paid:</b> $${totalPaid.toFixed(2)}</p>
+      
+      <p id="balance"><b>Balance:</b> $${totalOwed.toFixed(2)}</p>
 
       <hr>
 
       <h3>Activity</h3>
 
       ${job.activity.map(a => `
-        <div>
-          ${a.note}<br>
-          ${a.amount || ""}
-        </div>
-        <hr>
+<div id="activity-${a.id}" style="display:flex;  justify-content:space-between;  align-items:center; margin:5px 0;">
+    
+    <div>
+      ${a.note}<br>
+      $${a.amount || ""}
+    </div>
+
+    <button type="button" onclick="deleteActivity('${a.id}','${a.amount || 0}')"
+        style="
+          display:flex;
+      justify-content:center;
+      align-items:center;
+
+      border:1px solid #ddd;
+      border-radius:4px;
+      background:#fff;
+      cursor:pointer;
+
+      font-size:30px;
+      width:50px;
+      height:50px;
+
+      padding:0;
+      line-height:1;
+      flex-shrink:0;
+      
+      ">
+      🗑️
+    </button>
+
+  </div>
+ <hr>
+        
       `).join("")}
+      
+      
+          <h2>Add Job Activity</h2>    
+          <label for="chargeNotes">Job Activity</label>
+  <textarea name="chargeNotes" id="chargeNotesSPW" placeholder="notes..."></textarea>
+        
+         <label for="price">Price</label>
+  <input type="number" name="charge" id="chargeSPW" >
+        
+     <h2>Add Job Payment</h2>   
+
+        <label for="paymentType">Payment Method</label>
+  <select name="paymentType" id="paymentType" >
+    <option value=""></option>
+    <option value="Payment - Cash">Cash</option>
+    <option value="Payment - Credit Card">Credit Card</option>
+    <option value="Payment - Zelle">Zelle</option>
+    <option value="Payment - Check">Check</option>
+  </select>
+        
+    <label for="paid">Amount Paid</label>
+  <input type="number" name="paid" id="paid" >
+  
+    <label >Tax Amount</label>
+    <select name="tax"  id="taxSPW2" >
+        <option value="0"> </option>
+        <option value="8">8%</option>
+        <option value="8.875">8.875%</option>
+        
+    </select>
+      
+       <button  type="button" onclick="addActivity(${job.job.jobID})">Add Charge/Payment</button>
     `;
+
+    
   });
 }
-        
-        
+      
+      let selectedTax = 0;
+let selectedCC = 0;
+      
+      function setTax(val) {
+  selectedTax = parseFloat(val) / 100 || 0;
+  editPriceStuff();
+}
+      
+      function setCC(val) {
+  selectedCC = parseFloat(val) / 100 || 0;
+  editPriceStuff();
+}
+      
+function editPriceStuff(){
+    console.log("editPriceStuff fired");
+
+        console.log({totalBilled, totalPaid, selectedTax, selectedCC});
+
+  totalTax = (totalBilled * selectedTax);
+  ccFees = ((totalBilled + totalTax + totalPaid) * selectedCC);
+  let newOwed =  ((totalBilled * (1 + selectedTax) + totalPaid) * (1 + selectedCC));
+  //let newBilled= (totalBilled * (1 + selectedTax));
+  
+
+     
+  document.getElementById("ttlBilled").innerHTML = `<b>Subtotal:</b> $${totalBilled.toFixed(2)}`;
+  document.getElementById("balance").innerHTML = `<b>Balance:</b> $${newOwed.toFixed(2)}`;
+  document.getElementById("amountPaid").innerHTML = `<b>Paid:</b> $${totalPaid.toFixed(2)}`;
+  document.getElementById("owedTaxes").innerHTML = `<b>Tax:</b> $${totalTax.toFixed(2)}</p>`;
+  document.getElementById("creditCardFees").innerHTML = `<b>Credit Card Fees:</b> $${ccFees.toFixed(2)}</p>`;
+
+  
+  
+  
+}     
+async function sendEmail(jobID,cc, tax,email,name){
+    const formData = new FormData();
+      formData.append("action", "justSendInvoice");
+  formData.append("jobID", jobID);
+  formData.append("password", sessionStorage.getItem("auth"));
+  formData.append("cc", cc);
+  formData.append("tax", tax);
+  formData.append("email", email);
+  
+    const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.text();
+
+  alert(result);
+  
+}
+      
+async function deleteActivity(id, amount) {
+
+  if (!confirm("Delete this activity? This cannot be undone.")) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("action", "deleteActivity");
+  formData.append("jobID", id);
+  formData.append("password", sessionStorage.getItem("auth"));
+
+  const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.text();
+
+  alert(result);
+
+  // Refresh current job details
+  document.getElementById(`activity-${id}`)?.remove();
+   if (amount > 0) {
+      totalBilled -= amount;
+    }
+   if (amount < 0) {
+     totalPaid -= amount;
+     
+    }
+editPriceStuff();
+  //loadJobDetails();
+}
+      
+async function  closeAndSaveFees(jobID,status){
+  //if (status!="Open"){
+   //if (!confirm("Job is already closed, This will add taxes and cc fees. Please Confirm they are not charged twice! NOTE TO DEV, CHANGE THIS, FEES ADDED WHEN PAYING")) {
+   //return;
+  //}
+  //}
+  const formData = new FormData();
+  formData.append("action", "closeAndAddFees");
+  formData.append("jobID",jobID);
+  formData.append("tax",totalTax);
+  formData.append("ccFee",ccFees);
+  formData.append("password",sessionStorage.getItem("auth"));
+  
+   fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+}
+async function  addActivity(jobID){
+  //WORKING HERE
+  
+  const chargeNotes = document.getElementById("chargeNotesSPW").value.trim();
+  const charge =document.getElementById("chargeSPW").value ;
+  const tax = document.getElementById("taxSPW2").value;
+  const paymentType = document.getElementById("paymentType").value;
+  const paid = document.getElementById("paid").value;
+  
+  Array.from(document.forms).forEach(form => form.reset());
+  document.getElementById("jobDetails").innerHTML =``;
+  
+  const formData = new FormData();
+  formData.append("action", "addActivity");
+  formData.append("jobID",jobID);
+  formData.append("paid",-paid);
+  formData.append("paymentType",paymentType);
+  formData.append("charge",charge);
+  formData.append("chargeNotes",chargeNotes);
+  formData.append("tax",tax);
+  formData.append("password",sessionStorage.getItem("auth"));
+  //the form info
+ const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+  alert (await response.text());
+
+}
     </script>
     
     
 <script>
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZ62jiAyvij0PFH4JaGmmJedcKLNMcxCRntzj6k2pFKWacahINnWs4SZNTPwDwqef9yQ/exec";
-
+<
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqBb8gTDcH1xXSOEWZU35N9uHVZzbIi83OJc8IQZlxZrbxvx14MSt8IjsgrKerHTkEbw/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
@@ -708,4 +912,5 @@ function formatDateTime(date, time) {
   
   
 </html>
+
 
