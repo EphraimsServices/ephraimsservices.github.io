@@ -698,13 +698,10 @@ let selectedCC = 0;
 }
       
 function editPriceStuff(){
-    console.log("editPriceStuff fired");
 
-        console.log({totalBilled, totalPaid, selectedTax, selectedCC});
-
-  totalTax = (totalBilled * selectedTax);
+  totalTax = ((totalBilled +totalPaid)  * selectedTax);
   ccFees = ((totalBilled + totalTax + totalPaid) * selectedCC);
-  let newOwed =  ((totalBilled * (1 + selectedTax) + totalPaid) * (1 + selectedCC));
+  let newOwed =  totalBilled + totalPaid + totalTax + ccFees;
   //let newBilled= (totalBilled * (1 + selectedTax));
   
 
