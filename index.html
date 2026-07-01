@@ -966,7 +966,7 @@ async function  addActivity(jobID){
   const formData = new FormData();
   formData.append("action", "addActivity");
   formData.append("jobID",jobID);
-  formData.append("paid",paid);
+  formData.append("posPaid",paid);
   formData.append("paymentType",paymentType);
   formData.append("charge",charge);
   formData.append("chargeNotes",chargeNotes);
