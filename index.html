@@ -312,6 +312,99 @@
   <div id="jobDetails"></div>
 
 </form>
+     
+     
+     <form id="EditJob" class="tab-form" method="POST" style="display:none;">
+       <h2>Edit Appointment</h2>
+    
+    <div class="row">
+  <div class="phone-field">
+    <label for="phone">Phone*</label>
+    <input type="tel" name="phone" placeholder="123-456-7890" id="editPhone" required>
+  </div>
+
+  <div class="contact-field">
+    <label for="contactMethod"> Method</label>
+    <select name="contactMethod" id="editContactMethod">
+      <option value=""></option>
+      <option value="WhatsApp Message">WhatsApp Message</option>
+      <option value="WhatsApp Call">WhatsApp Call</option>
+      <option value="Call">Call</option>
+      <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
+  </div>
+</div>
+  
+      <div class="row">
+  <div class="phone-field">
+    <label for="altPhone">Alt Phone</label>
+    <input type="tel" name="altPhone" placeholder="123-456-7890" id="editAltPhone">
+  </div>
+
+  <div class="contact-field">
+    <label for="altContactMethod">Method</label>
+    <select name="altContactMethod" id="editAltContact">
+      <option value=""></option>
+      <option value="WhatsApp Message">WhatsApp Message</option>
+      <option value="WhatsApp Call">WhatsApp Call</option>
+      <option value="Call">Call</option>
+      <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
+  </div>
+</div>
+  
+  
+
+    <label for="address">Address*</label>
+  <input type="text" name="address" placeholder="123 Make Belive Dr, Brooklyn NY 11210" id="editAddress" required>
+    
+        <label for="location">Location*</label>
+    <select name="location" id="editLocation" required>
+        <option value=""></option>
+    <option value="Woodridge">Woodridge</option>
+    <option value="South Fallsburg">South Fallsburg</option>
+    <option value="Fallsburg">Fallsburg</option>
+    <option value="Loch Sheldrake">Loch Sheldrake</option>
+    <option value="Monticello">Monticello</option>
+    <option value="Woodbourne">Woodbourne</option>
+    <option value="Ellenville">Ellenville</option>
+    <option value="Kiamesha">Kiamesha</option>
+    <option value="Swan Lake">Swan Lake</option>
+        <option value="Liberty">Liberty</option>
+        <option value="White Lake">White Lake</option>
+        <option value="other">Other</option>
+    </select>
+    
+        <label for="date">Date*</label>
+    <input type="date" name="date" id="editDate" required>
+    
+      <label for="machine">Machine/Brand</label>
+  <input name="machine" type="text" id="editMachine">
+  
+  <label for="lastName">Last Name</label>
+  <input name="lastName" placeholder="Doe" id="editLastName">
+
+  <label for="extraNotes">Additional Notes</label>
+  <textarea name="extraNotes" placeholder="Any extra notes..." id="editExtraNotes"></textarea>
+
+       <input type="hidden" name="jobID" id="editJobID">
+  <button
+        type="submit"
+        name="action"
+        value="updateJob">
+        💾 Save Changes
+    </button>
+       <button
+        type="button"
+        onclick="cancelEditJob()">
+        Cancel
+    </button>
+       
+     </form>
       
   </div>
   
@@ -385,9 +478,6 @@ window.addEventListener('DOMContentLoaded', () => {
         
         formData.append("password",sessionStorage.getItem("auth"));
 //here
-        if (formData.has("posPaid")){
-          formData.append("paid",-formData.get("posPaid"));
-        }
         
         const response = await fetch(SCRIPT_URL, {
           method: form.method || 'POST',
@@ -397,7 +487,13 @@ window.addEventListener('DOMContentLoaded', () => {
         const result = await response.text();
 
         alert(result);
-        forms.forEach(f => f.reset());
+        
+        if (form.id === "EditJob") { 
+          showForm("Past");
+          loadJobDetails(); 
+        } else { 
+          forms.forEach(f => f.reset()); 
+        }
 
       } catch (err) {
 
@@ -434,6 +530,11 @@ window.addEventListener('DOMContentLoaded', () => {
     
         <!-- Search past work -->
     <script>
+            let currentJob = null;
+
+      
+      
+      
 document.getElementById("pastPhone")
   .addEventListener("change", loadPastJobs);
       
@@ -544,6 +645,8 @@ function loadJobDetails() {
   .then(res => res.json())
   .then(job => {
       
+      currentJob = job.job;
+
       const activity = job.activity || [];
 
   totalBilled = 0;
@@ -594,9 +697,29 @@ if (amt < 0){
 
   <button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
   <button  type="button" id="sendEmailButton" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
+      <div class="row" >
+      <div class="phone-field">
+       <h3>Job #${job.job.jobID}</h3>
+  </div>
+     <div class="contact-field">
+        <button 
+          type="button" 
+          onclick='editJob(${JSON.stringify(job.job)})'
+          style="
+          border:none;
+          background:none;
+          font-size:22px;
+          cursor:pointer;
+          padding:0px;
+          "
+          title="Edit Job">
+          ✏️
+        </button>
+      </div>
       
-      <h3>Job #${job.job.jobID}</h3>
-      
+
+      </div>
+          
       <p><b>Customer:</b> ${job.job.lastName}</p>
 
       <p><b>Machine:</b> ${job.job.machine}</p>
@@ -726,7 +849,36 @@ function editPriceStuff(){
   
   
   
-}     
+} 
+      function editJob() {
+
+    document.getElementById("Past").style.display = "none";
+    document.getElementById("EditJob").style.display = "block";
+        
+        document.getElementById("editPhone").value = currentJob.phone || "";
+        document.getElementById("editContactMethod").value = currentJob.phoneMethod  || "";
+        document.getElementById("editAltPhone").value = currentJob.phone2 || "";
+        document.getElementById("editAltContact").value = currentJob.phone2Method || "";
+        document.getElementById("editAddress").value = currentJob.address || "";
+        document.getElementById("editLocation").value = currentJob.zone || "";
+        document.getElementById("editDate").value = currentJob.date?.split("T")[0] || "";
+        document.getElementById("editMachine").value = currentJob.machine || "";
+        document.getElementById("editLastName").value = currentJob.lastName || "";
+        document.getElementById("editExtraNotes").value = currentJob.notes || "";
+        document.getElementById("editJobID").value = currentJob.jobID || "";
+        
+
+  
+}
+      
+      function cancelEditJob() {
+
+    document.getElementById("EditJob").reset();
+
+    document.getElementById("EditJob").style.display = "none";
+    document.getElementById("Past").style.display = "block";
+}
+      
 async function sendEmail(jobID,cc, tax,email,name){
   document.getElementById("sendEmailButton").innerHTML ="Loading...";
   document.getElementById("sendEmailButton").disabled = true;
@@ -737,6 +889,7 @@ async function sendEmail(jobID,cc, tax,email,name){
   formData.append("cc", cc);
   formData.append("tax", tax);
   formData.append("email", email);
+  formData.append("name", name);
   
     const response = await fetch(SCRIPT_URL, {
     method: "POST",
@@ -833,7 +986,7 @@ async function  addActivity(jobID){
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyR8iByY_Mh2LZHlE8hmY2pRjCUQ1ZtAuemGiGpt65LlLcxTn5pZDNrSL6wRDZgw2Fa7A/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqPmNX9jPtdXwvipBb5oaVnjTpiCQJynuexuga-vWZCxLKXsZZf-WpRE4w46B-uG9ytg/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
