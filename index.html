@@ -354,8 +354,8 @@
   <input type="number" step="0.01" inputmode="decimal" name="charge" id="price" >
         
      <h2>Add Job Payment</h2>   
-
-        <label for="paymentType">Payment Method</label>
+     
+  <label for="paymentType">Payment Method</label>
   <select name="paymentType" id="paymentNote" >
     <option value=""></option>
     <option value="Payment - Cash">Cash</option>
@@ -363,6 +363,8 @@
     <option value="Payment - Zelle">Zelle</option>
     <option value="Payment - Check">Check</option>
   </select>
+
+
         
     <label for="paid">Amount Paid</label>
   <input type="number" step="0.01" inputmode="decimal" name="posPaid" id="paymentAmount" >
@@ -397,7 +399,6 @@
     
 
 <form id="Past" class="tab-form" method="POST" style="display:none;">
-
   <h2>Search Past Work</h2>
 
     <label>Last Name</label>
@@ -773,31 +774,9 @@ if (amt < 0){
 
     document.getElementById("jobDetails").innerHTML = `
     <hr>
-    <h3>Invoice Info</h3>
+   
 
-   <label >Tax Amount</label>
-    <select name="tax"  id="taxSPW" onchange="setTax(this.value)">
-        <option value="0"> </option>
-        <option value="8">8%</option>
-        <option value="8.875">8.875%</option>
-        
-    </select>
-        
-         <label >Credit Card Fee?</label>
-  <select name="cc"  id="ccSPW" onchange="setCC(this.value)">
-    <option value="0"></option>
-    <option value="4">Yes</option>
-    <option value="0">No</option>
-  </select>
   
-  <label for="email">Email</label>
-  <input type="text" name="email" id="emailSPW" >
-    <label for="name">Name</label>
-  <input type="text" name="name" id="nameSPW" >
-  
-
-  <button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
-  <button  type="button" id="sendEmailButton" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
       <div class="row" >
       <div style="flex:2;">
        <h3>Job #${job.job.jobID}</h3>
@@ -844,8 +823,23 @@ if (amt < 0){
       
       <hr>
       
-      <h3>Payments</h3>
-
+<div class="row" >
+   <label >Tax %</label>
+    <select name="tax"  id="taxSPW" class="sync-select" onchange="setTax(this.value)">
+        <option value="0"> </option>
+        <option value="8">8%</option>
+        <option value="8.875">8.875%</option>
+        
+    </select>
+        
+         <label >CC Fee?</label>
+  <select name="cc"  id="ccSPW" onchange="setCC(this.value)">
+    <option value="0"></option>
+    <option value="4">Yes</option>
+    <option value="0">No</option>
+  </select>
+  </div>
+  <hr>
       <p id="ttlBilled"><b>Subtotal:</b> $${totalBilled.toFixed(2)}</p>
       
       <p id="owedTaxes"> <b>Tax:</b> $${totalTax.toFixed(2)}</p>
@@ -857,7 +851,7 @@ if (amt < 0){
       <p id="balance"><b>Balance:</b> $${totalOwed.toFixed(2)}</p>
 
       <hr>
-
+<button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
       <h3>Activity</h3>
 
       ${job.activity.map(a => `
@@ -919,7 +913,7 @@ if (amt < 0){
   <input type="number" step="0.01" inputmode="decimal" name="paid" id="paid" >
   
     <label >Tax Amount</label>
-    <select name="tax"  id="taxSPW2" >
+    <select name="tax"  id="taxSPW2" class="sync-select">
         <option value="0"> </option>
         <option value="8">8%</option>
         <option value="8.875">8.875%</option>
@@ -927,6 +921,13 @@ if (amt < 0){
     </select>
       
        <button  type="button" onclick="addActivity(${job.job.jobID})">Add Charge/Payment</button>
+       
+         <label for="email">Email</label>
+  <input type="text" name="email" id="emailSPW" >
+    <label for="name">Name</label>
+  <input type="text" name="name" id="nameSPW" >
+    <button  type="button" id="sendEmailButton" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
+
     `;
 
     
@@ -1116,11 +1117,27 @@ async function  addActivity(jobID){
 }
     </script>
     
+    <script>
+  // Listen to the entire document for any change events
+document.addEventListener('change', (event) => {
+  // Check if the changed element has the 'sync-select' class
+  if (event.target.classList.contains('sync-select')) {
+    const newValue = event.target.value;
     
+    // Find ALL current matching dropdowns in the DOM at this exact moment
+    const allSelects = document.querySelectorAll('.sync-select');
+    
+    // Update their values to match
+    allSelects.forEach(select => {
+      select.value = newValue;
+    });
+  }
+});
+</script>
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybgslaSW4wqqayiW_iY5NVmz4xP5vw41Uzz1ItCON3aXt0ahwlHWubbSVa7YP9B0jPIQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFI7TOooiB2l9ZB3y1dvT58330x2u1H2aaCtXNC0dXxylcJLKhFUPCnsAhZt6y6HsswQ/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
