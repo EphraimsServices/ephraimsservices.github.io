@@ -152,6 +152,9 @@
 <form  id="bookingForm" class="tab-form" method="POST">
   <h2>Book an Appointment</h2>
     
+    <label for="lastName">Last Name</label>
+  <input name="lastName" id="lastName" placeholder="Doe" >
+  
     <div class="row">
   <div class="phone-field">
     <label for="phone">Phone*</label>
@@ -204,6 +207,7 @@
     <option value="South Fallsburg">South Fallsburg</option>
     <option value="Fallsburg">Fallsburg</option>
     <option value="Loch Sheldrake">Loch Sheldrake</option>
+    <option value="Hurlyville">Hurlyville</option>
     <option value="Monticello">Monticello</option>
     <option value="Woodbourne">Woodbourne</option>
     <option value="Ellenville">Ellenville</option>
@@ -220,9 +224,6 @@
       <label for="machine">Machine/Brand</label>
   <input name="machine" id="machine" type="text" >
   
-  <label for="lastName">Last Name</label>
-  <input name="lastName" id="lastName" placeholder="Doe" >
-
   <label for="extraNotes">Additional Notes</label>
   <textarea name="extraNotes" id="extraNotes" placeholder="Any extra notes..."></textarea>
 
@@ -368,6 +369,7 @@
     <option value="Woodridge">Woodridge</option>
     <option value="South Fallsburg">South Fallsburg</option>
     <option value="Fallsburg">Fallsburg</option>
+    <option value="Hurlyville">Hurlyville</option>
     <option value="Loch Sheldrake">Loch Sheldrake</option>
     <option value="Monticello">Monticello</option>
     <option value="Woodbourne">Woodbourne</option>
@@ -1016,7 +1018,7 @@ async function  addActivity(jobID){
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzf5P9JH5qwW7Lyn7eRcD4rN7j4hGkENoAUTnlnlUVdjvPVMTwS356VzJBaESgqthOGqg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmRAhNFxmqkUAJIi4_XIWvnRPtuqioplP82Ak-4DKf-WrS0PfLQAhznxqzqJTA3zRqYQ/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
