@@ -155,12 +155,12 @@
     <div class="row">
   <div class="phone-field">
     <label for="phone">Phone*</label>
-    <input type="tel" name="phone" placeholder="123-456-7890" required>
+    <input type="tel" name="phone" id="phone" placeholder="123-456-7890" required>
   </div>
 
   <div class="contact-field">
     <label for="contactMethod"> Method</label>
-    <select name="contactMethod">
+    <select name="contactMethod" id="contactMethod">
       <option value=""></option>
       <option value="WhatsApp Message">WhatsApp Message</option>
       <option value="WhatsApp Call">WhatsApp Call</option>
@@ -175,12 +175,12 @@
       <div class="row">
   <div class="phone-field">
     <label for="altPhone">Alt Phone</label>
-    <input type="tel" name="altPhone" placeholder="123-456-7890" >
+    <input type="tel" name="altPhone" id="altPhone" placeholder="123-456-7890" >
   </div>
 
   <div class="contact-field">
     <label for="altContactMethod">Method</label>
-    <select name="altContactMethod">
+    <select name="altContactMethod" id="altContact">
       <option value=""></option>
       <option value="WhatsApp Message">WhatsApp Message</option>
       <option value="WhatsApp Call">WhatsApp Call</option>
@@ -195,7 +195,7 @@
   
 
     <label for="address">Address*</label>
-  <input type="text" name="address" placeholder="123 Make Belive Dr, Brooklyn NY 11210" required>
+  <input type="text" name="address" id="address" placeholder="123 Make Belive Dr, Brooklyn NY 11210" required>
     
         <label for="location">Location*</label>
     <select name="location" id="location" required>
@@ -218,13 +218,13 @@
     <input type="date" name="date" id="date" required>
     
       <label for="machine">Machine/Brand</label>
-  <input name="machine" type="text" >
+  <input name="machine" id="machine" type="text" >
   
   <label for="lastName">Last Name</label>
-  <input name="lastName" placeholder="Doe" >
+  <input name="lastName" id="lastName" placeholder="Doe" >
 
   <label for="extraNotes">Additional Notes</label>
-  <textarea name="extraNotes" placeholder="Any extra notes..."></textarea>
+  <textarea name="extraNotes" id="extraNotes" placeholder="Any extra notes..."></textarea>
 
   <button type="submit" name="action" value="createAppointment">Book Appointment</button>
 </form>
@@ -261,8 +261,8 @@
     <option value="Payment - Check">Check</option>
   </select>
         
-    <label for="posPaid">Amount Paid</label>
-  <input type="number" step="0.01" inputmode="decimal" name="paid" id="paymentAmount" >
+    <label for="paid">Amount Paid</label>
+  <input type="number" step="0.01" inputmode="decimal" name="posPaid" id="paymentAmount" >
       
               <label for="tax">Tax Amount</label>
     <select name="tax" id="tax" >
@@ -378,10 +378,7 @@
         <option value="White Lake">White Lake</option>
         <option value="other">Other</option>
     </select>
-    
-        <label for="date">Date*</label>
-    <input type="date" name="date" id="editDate" required>
-    
+        
       <label for="machine">Machine/Brand</label>
   <input name="machine" type="text" id="editMachine">
   
@@ -698,10 +695,11 @@ if (amt < 0){
   <button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
   <button  type="button" id="sendEmailButton" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
       <div class="row" >
-      <div class="phone-field">
+      <div style="flex:2;">
        <h3>Job #${job.job.jobID}</h3>
   </div>
-     <div class="contact-field">
+  
+     <div style="flex: 1;display:flex; justify-content:flex-end; gap:8px;">
         <button 
           type="button" 
           onclick='editJob(${JSON.stringify(job.job)})'
@@ -714,6 +712,20 @@ if (amt < 0){
           "
           title="Edit Job">
           ✏️
+        </button>
+
+        <button 
+          type="button" 
+          onclick='copyJob(${JSON.stringify(job.job)})'
+          style="
+          border:none;
+          background:none;
+          font-size:22px;
+          cursor:pointer;
+          padding:0px;
+          "
+          title="copy Job">
+          📑
         </button>
       </div>
       
@@ -861,11 +873,29 @@ function editPriceStuff(){
         document.getElementById("editAltContact").value = currentJob.phone2Method || "";
         document.getElementById("editAddress").value = currentJob.address || "";
         document.getElementById("editLocation").value = currentJob.zone || "";
-        document.getElementById("editDate").value = currentJob.date?.split("T")[0] || "";
         document.getElementById("editMachine").value = currentJob.machine || "";
         document.getElementById("editLastName").value = currentJob.lastName || "";
         document.getElementById("editExtraNotes").value = currentJob.notes || "";
         document.getElementById("editJobID").value = currentJob.jobID || "";
+        
+
+  
+}
+      
+            function copyJob() {
+
+    document.getElementById("Past").style.display = "none";
+    document.getElementById("bookingForm").style.display = "block";
+        
+        document.getElementById("phone").value = currentJob.phone || "";
+        document.getElementById("contactMethod").value = currentJob.phoneMethod  || "";
+        document.getElementById("altPhone").value = currentJob.phone2 || "";
+        document.getElementById("altContact").value = currentJob.phone2Method || "";
+        document.getElementById("address").value = currentJob.address || "";
+        document.getElementById("location").value = currentJob.zone || "";
+        document.getElementById("machine").value = currentJob.machine || "";
+        document.getElementById("lastName").value = currentJob.lastName || "";
+        document.getElementById("extraNotes").value = currentJob.notes || "";
         
 
   
