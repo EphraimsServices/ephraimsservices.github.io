@@ -146,9 +146,114 @@
     <button onclick="showForm('Notes')">Invoicing / Payments</button>
     <button onclick="showForm('Past')">Search Past Jobs</button>
     <button onclick="window.open('https://docs.google.com/spreadsheets/d/1KjTc2ER-24N4VdubA1EFODfUvFwsVbiFSWWvZY0ap8U/edit?', '_blank');">Open Billing <br> Dashboard</button>
-
+    <button onclick="showForm('instantApt')">Instant Appointment</button>
+    
 </div>
 
+     <form  id="instantApt" class="tab-form" method="POST" style="display:none;">
+  <h2>Record an Instant Appointment</h2>
+    
+    <label for="lastName">Last Name</label>
+  <input name="lastName"  placeholder="Doe" >
+  
+      <label for="address">Address*</label>
+  <input type="text" name="address"  placeholder="123 Make Belive Dr, Brooklyn NY 11210" required>
+    <div class="row">
+  <div class="phone-field">
+    <label for="phone">Phone*</label>
+    <input type="tel" name="phone"  placeholder="123-456-7890" required>
+  </div>
+
+  <div class="contact-field">
+    <label for="contactMethod"> Method</label>
+    <select name="contactMethod" >
+      <option value=""></option>
+      <option value="WhatsApp Message">WhatsApp Message</option>
+      <option value="WhatsApp Call">WhatsApp Call</option>
+      <option value="Call">Call</option>
+      <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
+  </div>
+</div>
+  
+      <div class="row">
+  <div class="phone-field">
+    <label for="altPhone">Alt Phone</label>
+    <input type="tel" name="altPhone"  placeholder="123-456-7890" >
+  </div>
+
+  <div class="contact-field">
+    <label for="altContactMethod">Method</label>
+    <select name="altContactMethod" >
+      <option value=""></option>
+      <option value="WhatsApp Message">WhatsApp Message</option>
+      <option value="WhatsApp Call">WhatsApp Call</option>
+      <option value="Call">Call</option>
+      <option value="Text Message">Text Message</option>
+      <option value="Voice Call">Voice Call</option>
+      <option value="Voice Message">Voice Message</option>
+    </select>
+  </div>
+</div>
+  
+        <label for="location">Location*</label>
+    <select name="location"  required>
+        <option value=""></option>
+    <option value="Woodridge">Woodridge</option>
+    <option value="South Fallsburg">South Fallsburg</option>
+    <option value="Fallsburg">Fallsburg</option>
+    <option value="Loch Sheldrake">Loch Sheldrake</option>
+    <option value="Hurlyville">Hurlyville</option>
+    <option value="Monticello">Monticello</option>
+    <option value="Woodbourne">Woodbourne</option>
+    <option value="Ellenville">Ellenville</option>
+    <option value="Kiamesha">Kiamesha</option>
+    <option value="Swan Lake">Swan Lake</option>
+        <option value="Liberty">Liberty</option>
+        <option value="White Lake">White Lake</option>
+        <option value="other">Other</option>
+    </select>
+    
+      <label for="machine">Machine/Brand</label>
+  <input name="machine"  type="text" >
+  
+  <label for="extraNotes">Additional Notes</label>
+  <textarea name="extraNotes"  placeholder="Any extra notes..."></textarea>
+       
+       <h2>Add Job Activity</h2>    
+          <label for="chargeNotes">Job Activity</label>
+  <textarea name="chargeNotes" placeholder="notes..."></textarea>
+        
+         <label for="charge">Price</label>
+  <input type="number" step="0.01" inputmode="decimal" name="charge"  >
+        
+     <h2>Add Job Payment</h2>   
+
+        <label for="paymentType">Payment Method</label>
+  <select name="paymentType"  >
+    <option value=""></option>
+    <option value="Payment - Cash">Cash</option>
+    <option value="Payment - Credit Card">Credit Card</option>
+    <option value="Payment - Zelle">Zelle</option>
+    <option value="Payment - Check">Check</option>
+  </select>
+        
+    <label for="paid">Amount Paid</label>
+  <input type="number" step="0.01" inputmode="decimal" name="posPaid"  >
+      
+              <label for="tax">Tax Amount</label>
+    <select name="tax"  >
+        <option value="0"></option>
+        <option value="8">8%</option>
+        <option value="8.875">8.875%</option>
+    </select>
+
+  <button type="submit" name="action" value="instantApt">Record Instant Appointment</button>
+</form>
+     
+     
 <form  id="bookingForm" class="tab-form" method="POST">
   <h2>Book an Appointment</h2>
     
@@ -271,7 +376,7 @@
 
   
 <button type="submit" name="action" value="addActivity">Record Activity & Payment</button>
-<button type="submit" name="action" value="closeJob">Record  & Close Job</button>
+<button type="submit" name="action" value="closeJob">Record  & Close Job </button>
 
         <h2>Record and Invoice</h2>   
         
@@ -1015,7 +1120,7 @@ async function  addActivity(jobID){
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmRAhNFxmqkUAJIi4_XIWvnRPtuqioplP82Ak-4DKf-WrS0PfLQAhznxqzqJTA3zRqYQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybgslaSW4wqqayiW_iY5NVmz4xP5vw41Uzz1ItCON3aXt0ahwlHWubbSVa7YP9B0jPIQ/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
