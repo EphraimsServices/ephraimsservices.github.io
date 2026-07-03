@@ -851,7 +851,7 @@ if (amt < 0){
       <p id="balance"><b>Balance:</b> $${totalOwed.toFixed(2)}</p>
 
       <hr>
-<button  type="button" onclick="closeAndSaveFees(${job.job.jobID}, '${job.job.status}')">Close Job</button>
+<button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>
       <h3>Activity</h3>
 
       ${job.activity.map(a => `
@@ -926,8 +926,8 @@ if (amt < 0){
   <input type="text" name="email" id="emailSPW" >
     <label for="name">Name</label>
   <input type="text" name="name" id="nameSPW" >
-    <button  type="button" id="sendEmailButton" onclick="sendEmail(${job.job.jobID},document.getElementById('ccSPW').value,document.getElementById('taxSPW').value,document.getElementById('emailSPW').value,document.getElementById('nameSPW').value)">Send Invoice</button>    
-
+    <button  type="button" id="sendEmailButton" onclick="addActivityAndEmail(${job.job.jobID})">Send Invoice</button>    
+    
     `;
 
     
@@ -1017,6 +1017,8 @@ function editPriceStuff(){
 async function sendEmail(jobID,cc, tax,email,name){
   document.getElementById("sendEmailButton").innerHTML ="Loading...";
   document.getElementById("sendEmailButton").disabled = true;
+  
+  
     const formData = new FormData();
       formData.append("action", "justSendInvoice");
   formData.append("jobID", jobID);
@@ -1071,21 +1073,77 @@ async function deleteActivity(id, amount) {
 editPriceStuff();
 }
       
-async function  closeAndSaveFees(jobID,status){
+async function  justClose(jobID,status){
 
 
   const formData = new FormData();
-  formData.append("action", "closeAndAddFees");
+  formData.append("action", "justClose");
   formData.append("jobID",jobID);
-  formData.append("tax",totalTax);
-  formData.append("ccFee",ccFees);
   formData.append("password",sessionStorage.getItem("auth"));
   
-   fetch(SCRIPT_URL, {
+   const response = await fetch(SCRIPT_URL, {
     method: "POST",
     body: formData
   });
+  
+  alert (await response.text());
 }
+      
+      async function  addActivityAndEmail(jobID){
+        
+        
+        document.getElementById("sendEmailButton").innerHTML ="Loading...";
+  document.getElementById("sendEmailButton").disabled = true;
+  
+        const chargeNotes = document.getElementById("chargeNotesSPW").value.trim();
+  const charge =document.getElementById("chargeSPW").value ;
+  const tax = document.getElementById("taxSPW2").value;
+  const paymentType = document.getElementById("paymentType").value;
+  const paid = document.getElementById("paid").value;
+  const cc = document.getElementById('ccSPW').value;
+  const email = document.getElementById('emailSPW').value;
+  const name = document.getElementById('nameSPW').value;
+  
+  document.getElementById("chargeNotesSPW").value = "";
+document.getElementById("chargeSPW").value = "";
+document.getElementById("taxSPW2").value = "";
+document.getElementById("paymentType").value = "";
+document.getElementById("paid").value = "";
+  document.getElementById("ccSPW").value = "";
+        document.getElementById("emailSPW").value = "";
+        document.getElementById("nameSPW").value = "";
+  
+  //Array.from(document.forms).forEach(form => form.reset());
+  //document.getElementById("jobDetails").innerHTML =``;
+  
+  const formData = new FormData();
+  formData.append("action", "sendInvoice");
+  formData.append("jobID",jobID);
+  formData.append("posPaid",paid);
+  formData.append("paymentType",paymentType);
+  formData.append("charge",charge);
+  formData.append("chargeNotes",chargeNotes);
+  formData.append("tax",tax);
+        formData.append("cc",cc);
+        formData.append("email",email);
+        formData.append("name",name);
+  formData.append("password",sessionStorage.getItem("auth"));
+        
+  //the form info
+ const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+  alert (await response.text());
+        
+ document.getElementById("sendEmailButton").innerHTML ="Send Email";
+  document.getElementById("sendEmailButton").disabled= false;
+ 
+}
+        
+      
+        
+      
 async function  addActivity(jobID){
   //WORKING HERE
   
@@ -1095,8 +1153,15 @@ async function  addActivity(jobID){
   const paymentType = document.getElementById("paymentType").value;
   const paid = document.getElementById("paid").value;
   
-  Array.from(document.forms).forEach(form => form.reset());
-  document.getElementById("jobDetails").innerHTML =``;
+  
+  document.getElementById("chargeNotesSPW").value = "";
+document.getElementById("chargeSPW").value = "";
+document.getElementById("taxSPW2").value = "";
+document.getElementById("paymentType").value = "";
+document.getElementById("paid").value = "";
+  
+  //Array.from(document.forms).forEach(form => form.reset());
+  //document.getElementById("jobDetails").innerHTML =``;
   
   const formData = new FormData();
   formData.append("action", "addActivity");
@@ -1137,7 +1202,7 @@ document.addEventListener('change', (event) => {
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxpWTVKviXUy9fQ5jusoMLgAlwDR4XOCktk1X2sSjPIaK5fdrh7GmNtieKegg0aLKASHg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxigimb6sAR5NUOKQflOdBw8jwBqIp3mU6oxMKQRpuB1ZosP888WiIU_aQAIJNLJejzLw/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
