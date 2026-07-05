@@ -910,7 +910,7 @@ if (amt < 0){
   </select>
         
     <label for="paid">Amount Paid</label>
-  <input type="number" step="0.01" inputmode="decimal" name="posPaid" id="paid" >
+  <input type="number" step="0.01" inputmode="decimal" name="posPaid" id="Paid" >
   
     <label >Tax Amount</label>
     <select name="tax"  id="taxSPW2" class="sync-select">
@@ -1099,7 +1099,7 @@ async function  justClose(jobID,status){
   const charge =document.getElementById("chargeSPW").value ;
   const tax = document.getElementById("taxSPW2").value;
   const paymentType = document.getElementById("paymentType").value;
-  const paid = document.getElementById("posPaid").value;
+  const paid = document.getElementById("paid").value;
   const cc = document.getElementById('ccSPW').value;
   const email = document.getElementById('emailSPW').value;
   const name = document.getElementById('nameSPW').value;
@@ -1108,7 +1108,7 @@ async function  justClose(jobID,status){
 document.getElementById("chargeSPW").value = "";
 document.getElementById("taxSPW2").value = "";
 document.getElementById("paymentType").value = "";
-document.getElementById("posPaid").value = "";
+document.getElementById("paid").value = "";
   document.getElementById("ccSPW").value = "";
         document.getElementById("emailSPW").value = "";
         document.getElementById("nameSPW").value = "";
