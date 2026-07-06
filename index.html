@@ -378,7 +378,7 @@
 
   
 <button type="submit" name="action" value="addActivity">Record Activity & Payment</button>
-<button type="submit" name="action" value="closeJob">Record  & Close Job </button>
+<!--<button type="submit" name="action" value="closeJob">Record  & Close Job </button>-->
 
         <h2>Record and Invoice</h2>   
         
@@ -819,7 +819,7 @@ if (amt < 0){
 
       <p><b>Machine:</b> ${job.job.machine}</p>
 
-      <p><b>Status:</b> ${job.job.status}</p>
+      <p id="statusID"><b>Status:</b> ${job.job.status}</p>
       
       <hr>
       
@@ -851,7 +851,7 @@ if (amt < 0){
       <p id="balance"><b>Balance:</b> $${totalOwed.toFixed(2)}</p>
 
       <hr>
-<button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>
+<!--<button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>-->
       <h3>Activity</h3>
 
       ${job.activity.map(a => `
@@ -913,7 +913,7 @@ if (amt < 0){
   <input type="number" step="0.01" inputmode="decimal" name="posPaid" id="paid" >
   
     <label >Tax Amount</label>
-    <select name="tax"  id="taxSPW2" class="sync-select">
+    <select name="tax"  id="taxSPW2" onchange="setTax(this.value)" class="sync-select">
         <option value="0"> </option>
         <option value="8">8%</option>
         <option value="8.875">8.875%</option>
@@ -1087,6 +1087,7 @@ async function  justClose(jobID,status){
   });
   
   alert (await response.text());
+   document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
 }
       
       async function  addActivityAndEmail(jobID){
@@ -1138,7 +1139,7 @@ document.getElementById("paid").value = "";
         
  document.getElementById("sendEmailButton").innerHTML ="Send Email";
   document.getElementById("sendEmailButton").disabled= false;
- 
+ document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
 }
         
       
@@ -1184,6 +1185,7 @@ document.getElementById("paid").value = "";
   
    document.getElementById("addChargeAndPayment").innerHTML ="Add Charge/Payment";
   document.getElementById("addChargeAndPayment").disabled= false;
+    document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
 }
     </script>
     
@@ -1207,7 +1209,7 @@ document.addEventListener('change', (event) => {
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFD-qrbzOfB-OzdC4aCVVNNjJs9d2Lkpzsx-mIyIVDsgZfZ0f-liCkfkrn_heIMRRh/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2CGYJJoQDnHJH6FA1je8rYbQ--u8utWzKqJ4rqEQD_Qr2Bog_fOW9Cd-5l9P5cxiGmA/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
