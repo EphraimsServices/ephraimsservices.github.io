@@ -920,7 +920,7 @@ if (amt < 0){
         
     </select>
       
-       <button  type="button" onclick="addActivity(${job.job.jobID})">Add Charge/Payment</button>
+       <button  type="button" id="addChargeAndPayment"onclick="addActivity(${job.job.jobID})">Add Charge/Payment</button>
        
          <label for="email">Email</label>
   <input type="text" name="email" id="emailSPW" >
@@ -1146,19 +1146,21 @@ document.getElementById("paid").value = "";
       
 async function  addActivity(jobID){
   //WORKING HERE
+        document.getElementById("addChargeAndPayment").innerHTML ="Loading...";
+  document.getElementById("addChargeAndPayment").disabled = true;
   
   const chargeNotes = document.getElementById("chargeNotesSPW").value.trim();
   const charge =document.getElementById("chargeSPW").value ;
   const tax = document.getElementById("taxSPW2").value;
   const paymentType = document.getElementById("paymentType").value;
-  const paid = document.getElementById("posPaid").value;
+  const paid = document.getElementById("paid").value;
   
   
   document.getElementById("chargeNotesSPW").value = "";
 document.getElementById("chargeSPW").value = "";
 document.getElementById("taxSPW2").value = "";
 document.getElementById("paymentType").value = "";
-document.getElementById("posPaid").value = "";
+document.getElementById("paid").value = "";
   
   //Array.from(document.forms).forEach(form => form.reset());
   //document.getElementById("jobDetails").innerHTML =``;
@@ -1179,6 +1181,9 @@ document.getElementById("posPaid").value = "";
   });
   alert (await response.text());
 
+  
+   document.getElementById("addChargeAndPayment").innerHTML ="Add Charge/Payment";
+  document.getElementById("addChargeAndPayment").disabled= false;
 }
     </script>
     
