@@ -615,6 +615,12 @@ window.addEventListener('DOMContentLoaded', () => {
   forms.forEach((form) => {
     form.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
+
+    if (document.activeElement && document.activeElement.tagName.toLowerCase() === 'textarea') {
+            return; 
+        }
+
+    
     e.preventDefault();
   }
 });
