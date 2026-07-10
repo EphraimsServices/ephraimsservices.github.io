@@ -969,7 +969,7 @@ if (amt < 0){
     <label for="name">Name</label>
   <input type="text" name="name" id="nameSPW" >
     <button  type="button" id="sendEmailButton" onclick="addActivityAndEmail(${job.job.jobID})">Send Invoice</button>    
-    <button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>
+    <button  type="button" onclick="justClose(${job.job.jobID})">Close Job</button>
 
     `;
 
@@ -1141,7 +1141,7 @@ async function deleteActivity(id, amount) {
 editPriceStuff();
 }
       
-async function  justClose(jobID,status){
+async function  justClose(jobID){
 
 
   const formData = new FormData();
@@ -1203,8 +1203,13 @@ document.getElementById("paid").value = "";
     method: "POST",
     body: formData
   });
-  alert (await response.text());
-        
+  if (!confirm(await response.text()+ " \n\nWould You like to Close this job?")){
+    document.getElementById("sendEmailButton").innerHTML ="Send Email";
+    document.getElementById("sendEmailButton").disabled= false;
+    document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
+    return;
+  }
+        justClose(jobID);
  document.getElementById("sendEmailButton").innerHTML ="Send Email";
   document.getElementById("sendEmailButton").disabled= false;
  document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
@@ -1214,7 +1219,6 @@ document.getElementById("paid").value = "";
         
       
 async function  addActivity(jobID){
-  //WORKING HERE
         document.getElementById("addChargeAndPayment").innerHTML ="Loading...";
   document.getElementById("addChargeAndPayment").disabled = true;
   
@@ -1248,12 +1252,18 @@ document.getElementById("paid").value = "";
     method: "POST",
     body: formData
   });
-  alert (await response.text());
-
-  
-   document.getElementById("addChargeAndPayment").innerHTML ="Add Charge/Payment";
-  document.getElementById("addChargeAndPayment").disabled= false;
+  if (!confirm(await response.text()+ " \n\nWould You like to Close this job?")) {
+    document.getElementById("addChargeAndPayment").innerHTML ="Add Charge/Payment";
+    document.getElementById("addChargeAndPayment").disabled= false;
     document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
+    return;
+  }
+  //alert (await response.text());
+
+  justClose(jobID);
+  document.getElementById("addChargeAndPayment").innerHTML ="Add Charge/Payment";
+  document.getElementById("addChargeAndPayment").disabled= false;
+  document.getElementById("statusID").innerHTML = "<b>Status:</b> Closed";
 }
     </script>
     
