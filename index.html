@@ -378,7 +378,7 @@
 
   
 <button type="submit" name="action" value="addActivity">Record Activity & Payment</button>
-<!--<button type="submit" name="action" value="closeJob">Record  & Close Job </button>-->
+<button type="submit" name="action" value="closeJob">Record  & Close Job </button>
 
         <h2>Record and Invoice</h2>   
         
@@ -507,6 +507,36 @@
     </button>
        
      </form>
+     
+     
+       <form id="Rebook" class="tab-form" method="POST" style="display:none;">
+       <h2>Reschedule</h2>
+    
+    <input type="date" name="date" id="RebookDate" required>
+    <input type="hidden" name="phone" placeholder="123-456-7890" id="RebookPhone" >
+    <input type="hidden" name="contactMethod" id="RebookContactMethod">
+    <input type="hidden" name="altPhone" placeholder="123-456-7890" id="RebookAltPhone">
+    <input type="hidden" name="altContactMethod" id="RebookAltContact">
+    <input type="hidden" name="address" placeholder="123 Make Belive Dr, Brooklyn NY 11210" id="RebookAddress" >
+    <input type="hidden" name="location" id="RebookLocation" >
+  <input type="hidden" name="machine" id="RebookMachine">
+  <input type="hidden" name="lastName" placeholder="Doe" id="RebookLastName">
+  <input type="hidden" name="extraNotes" placeholder="Any extra notes..." id="RebookExtraNotes">
+       <input type="hidden" name="jobID" id="RebookJobID">
+  <button
+        type="submit"
+        name="action"
+        value="rebook">
+        💾 Reschedule
+    </button>
+       <button
+        type="button"
+        onclick="cancelRebook()">
+        Cancel
+    </button>
+       
+     </form>
+   
       
   </div>
   
@@ -615,12 +645,6 @@ window.addEventListener('DOMContentLoaded', () => {
   forms.forEach((form) => {
     form.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
-
-    if (document.activeElement && document.activeElement.tagName.toLowerCase() === 'textarea') {
-            return; 
-        }
-
-    
     e.preventDefault();
   }
 });
@@ -816,6 +840,19 @@ if (amt < 0){
           title="copy Job">
           📑
         </button>
+        <button 
+          type="button" 
+          onclick='rebook(${JSON.stringify(job.job)})'
+          style="
+          border:none;
+          background:none;
+          font-size:22px;
+          cursor:pointer;
+          padding:0px;
+          "
+          title="Reschedule">
+          📅
+        </button>
       </div>
       
 
@@ -857,7 +894,6 @@ if (amt < 0){
       <p id="balance"><b>Balance:</b> $${totalOwed.toFixed(2)}</p>
 
       <hr>
-<!--<button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>-->
       <h3>Activity</h3>
 
       ${job.activity.map(a => `
@@ -933,7 +969,8 @@ if (amt < 0){
     <label for="name">Name</label>
   <input type="text" name="name" id="nameSPW" >
     <button  type="button" id="sendEmailButton" onclick="addActivityAndEmail(${job.job.jobID})">Send Invoice</button>    
-    
+    <button  type="button" onclick="justClose(${job.job.jobID}, '${job.job.status}')">Close Job</button>
+
     `;
 
     
@@ -992,6 +1029,30 @@ function editPriceStuff(){
 
   
 }
+       function rebook() {
+
+    document.getElementById("Past").style.display = "none";
+    document.getElementById("Rebook").style.display = "block";
+        
+        document.getElementById("RebookPhone").value = currentJob.phone || "";
+        document.getElementById("RebookContactMethod").value = currentJob.phoneMethod  || "";
+        document.getElementById("RebookAltPhone").value = currentJob.phone2 || "";
+        document.getElementById("RebookAltContact").value = currentJob.phone2Method || "";
+        document.getElementById("RebookAddress").value = currentJob.address || "";
+        document.getElementById("RebookLocation").value = currentJob.zone || "";
+        document.getElementById("RebookMachine").value = currentJob.machine || "";
+        document.getElementById("RebookLastName").value = currentJob.lastName || "";
+        document.getElementById("RebookExtraNotes").value = currentJob.notes || "";
+        document.getElementById("RebookJobID").value = currentJob.jobID || "";
+  }
+      
+            function cancelRebook() {
+
+    document.getElementById("Rebook").reset();
+
+    document.getElementById("Rebook").style.display = "none";
+    document.getElementById("Past").style.display = "block";
+}
       
             function copyJob() {
 
@@ -1011,6 +1072,7 @@ function editPriceStuff(){
 
   
 }
+
       
       function cancelEditJob() {
 
@@ -1215,7 +1277,7 @@ document.addEventListener('change', (event) => {
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxW9xl1MXg8ZLoa3uy8KfD2Ejp57FKFHX5hnBk26wF2GQPbUIv13aVTJLj-L6eunlaW/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwgC9VSkZOQif1ZlOa6YlEW9APW1iOtLIOkvbqNs19M6nNlwkKeSPlaQRi8yikuuLjUyw/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
@@ -1324,4 +1386,3 @@ function formatDateTime(date, time) {
   
   
 </html>
-
