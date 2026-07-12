@@ -709,7 +709,25 @@ document.getElementById("pastPhone")
   fetch(url)
     .then(res => res.json())
     .then(data => {
+//add here
+      const statusOrder = {
+    "Open": 1,
+    "Done": 2,
+    "Paid": 3,
+    "Deleted": 4
+  };
 
+  data.sort((a, b) => {
+    const statusCompare =
+      (statusOrder[a.status] || 999) - (statusOrder[b.status] || 999);
+
+    if (statusCompare !== 0) return statusCompare;
+
+    // Optional: sort within each group
+    return a.label.localeCompare(b.label);
+  });
+    
+    //stop here
       select.innerHTML =
         '<option value="">Select Job</option>';
 
@@ -815,6 +833,19 @@ if (amt < 0){
      <div style="flex: 1;display:flex; justify-content:flex-end; gap:8px;">
         <button 
           type="button" 
+          onclick=loadJobDetails()
+          style="
+          border:none;
+          background:none;
+          font-size:22px;
+          cursor:pointer;
+          padding:0px;
+          "
+          title="Reload">
+          🔄️
+        </button>
+        <button 
+          type="button" 
           onclick='editJob(${JSON.stringify(job.job)})'
           style="
           border:none;
@@ -853,6 +884,21 @@ if (amt < 0){
           title="Reschedule">
           📅
         </button>
+        <button 
+          type="button" 
+          onclick='deleteJob(${job.job.jobID})'
+          style="
+          border:none;
+          background:none;
+          font-size:22px;
+          cursor:pointer;
+          padding:0px;
+          "
+          title="Delete Job">
+          🗑️
+        </button>
+        
+        
       </div>
       
 
@@ -1044,6 +1090,8 @@ function editPriceStuff(){
         document.getElementById("RebookLastName").value = currentJob.lastName || "";
         document.getElementById("RebookExtraNotes").value = currentJob.notes || "";
         document.getElementById("RebookJobID").value = currentJob.jobID || "";
+         
+   
   }
       
             function cancelRebook() {
@@ -1107,6 +1155,29 @@ async function sendEmail(jobID,cc, tax,email,name){
   document.getElementById("sendEmailButton").innerHTML ="Send Email";
   document.getElementById("sendEmailButton").disabled= false;
 }
+      
+async function deleteJob(jobID){
+        if (!confirm("Delete this Job? This cannot be undone.")) {
+    return;
+  }
+  if (!confirm("Are you sure you want to delete this Job? \nThis cannot be undone.")) {
+    return;
+  }
+   const formData = new FormData();
+  formData.append("action", "deleteJob");
+  formData.append("jobID", jobID);
+  formData.append("password", sessionStorage.getItem("auth"));
+  
+  const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+  });
+  
+  const result = await response.text();
+  alert (result);
+  
+   document.getElementById("jobDetails").innerHTML ="";
+      }
       
 async function deleteActivity(id, amount) {
 
@@ -1287,7 +1358,7 @@ document.addEventListener('change', (event) => {
 <script>
 
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwgC9VSkZOQif1ZlOa6YlEW9APW1iOtLIOkvbqNs19M6nNlwkKeSPlaQRi8yikuuLjUyw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTZjjfhQoKKU_CUXRGFhcjXjfG6Bb97c7RCeC2BySD3o7CseHITCPpjAsAldF3dZMVDg/exec";
 
   document.getElementById("bookingForm").action = SCRIPT_URL;
   document.getElementById("Notes").action = SCRIPT_URL;
